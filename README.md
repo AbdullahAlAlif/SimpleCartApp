@@ -25,11 +25,11 @@ To get started with the project, follow these steps:
 
 ## Screenshots
 
-![Screenshot 1](Capture1.PNG)
-*Description of Screenshot 1*
+![Screenshot 1](Capture.PNG)
+*View of the Shoppic Page*
 
 ![Screenshot 2](Capture2.PNG)
-*Description of Screenshot 2*
+*View of the Shopping Cart*
 
 ## Code Overview
 
