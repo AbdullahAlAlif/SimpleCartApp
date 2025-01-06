@@ -187,3 +187,10 @@ function updateQuantity(index, change) {
         updateCartDisplay();
     }
 }
+
+
+
+function ClearAll(){
+    cart = [];
+    updateCartDisplay();
+}
