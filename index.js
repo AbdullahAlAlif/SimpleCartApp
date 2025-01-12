@@ -188,9 +188,77 @@ function updateQuantity(index, change) {
     }
 }
 
+function ClearAll() {
+    alert('Cart cleared!');
+    cart = [];
+    updateCartDisplay();
+} 
 
+//Okh let's use a simple Hashmap to keep track of Cupon Code
+let coupons = {
+    'SAVE10': 0.10,
+    'SAVE25': 0.25,
+    'SAVE50': 0.50,
+    'SAVE80': 0.80
+};
+let discount = 0;
 
-function ClearAll(){
+function CheakOut() {
+    var checkoutModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+    updateCheckoutModal();
+    checkoutModal.show();
+}
+
+function updateCheckoutModal() {
+    let checkoutProducts = document.getElementById('checkoutProducts');
+    checkoutProducts.innerHTML = ''; // Clear the checkout products container
+
+    cart.forEach(product => {
+        let productItem = document.createElement('div');
+        productItem.className = 'd-flex justify-content-between align-items-center mb-2';
+
+        let productTitle = document.createElement('span');
+        productTitle.textContent = `${product.title} (x${product.quantity})`;
+
+        let productPrice = document.createElement('span');
+        productPrice.textContent = `$${product.Price.toFixed(2)}`;
+
+        productItem.appendChild(productTitle);
+        productItem.appendChild(productPrice);
+        checkoutProducts.appendChild(productItem);
+    });
+
+    let total = cart.reduce((sum, product) => sum + product.Price, 0);
+    document.getElementById('originalTotal').textContent = `$${total.toFixed(2)}`;
+    document.getElementById('discountedTotal').textContent = `$${(total * (1 - discount)).toFixed(2)}`;
+}
+
+function applyCoupon() {
+    let couponCode = document.getElementById('couponCode').value.trim().toUpperCase();
+    let couponInput = document.getElementById('couponCode');
+    
+    if (coupons[couponCode] !== undefined) {
+        discount = coupons[couponCode];
+        updateCheckoutModal();
+        document.getElementById('originalTotal').classList.add('text-strikethrough');
+        document.getElementById('discountedTotal').classList.remove('d-none');
+        couponInput.classList.remove('is-invalid');
+        couponInput.placeholder = 'Enter coupon code';
+        alert(`Coupon applied! You get a ${discount * 100}% discount.`);
+    } else {
+        couponInput.value="";
+        couponInput.classList.add('is-invalid');
+        couponInput.placeholder = 'Invalid coupon';
+    }
+}
+
+function makePurchase() {
+    alert('Purchase made successfully!');
+    var checkoutModal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
+    checkoutModal.hide();
+    //let's Clear the cart too
     cart = [];
     updateCartDisplay();
 }
+
+
